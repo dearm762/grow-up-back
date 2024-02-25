@@ -71,15 +71,23 @@ def signUp():
     
     ssid = generate_ssid()
 
-    cursor = db.cursor()
-    cursor.execute("INSERT INTO users (name, surname, email, password, ssid) VALUES (%s, %s, %s, %s, %s)", (name, surname, email, hashed_password, ssid))
-    db.commit()
-    cursor.close()
-    return jsonify({
-        "message": "Sign up successful",
-        "status": True,
-        "ssid": ssid
-    })
+    try:
+        cursor = db.cursor()
+        cursor.execute("INSERT INTO users (name, surname, email, password, ssid) VALUES (%s, %s, %s, %s, %s)", (name, surname, email, hashed_password, ssid))
+        db.commit()
+        cursor.close()
+        return jsonify({
+            "message": "Sign up successful",
+            "status": True,
+            "ssid": ssid
+        })
+    except psycopg2.IntegrityError as e:
+        # Duplicate email error
+        db.rollback()
+        return jsonify({
+            "message": "Email already exists",
+            "status": False
+        })
 
 @app.route('/forgot-password', methods=['POST'])
 def forgotPassword():
