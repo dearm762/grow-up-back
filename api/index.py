@@ -23,7 +23,6 @@ print("You are connected to - ", record)
 cursor.close()
 
 def generate_ssid(length=50):
-    """Generate a random SSID."""
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length))
 
@@ -41,7 +40,7 @@ def signIn():
     user = cursor.fetchone()
     cursor.close()
     if user:
-        ssid = user[5]  # Assuming SSID is at index 5 in the result
+        ssid = user[5]
         return jsonify({
             "message": "Sign in successful",
             "status": True,
@@ -61,7 +60,6 @@ def signUp():
     email = request_data.get('email')
     password = request_data.get('password')
     
-    # Generate SSID
     ssid = generate_ssid()
 
     cursor = db.cursor()
@@ -76,11 +74,18 @@ def signUp():
 
 @app.route('/forgot-password', methods=['POST'])
 def forgotPassword():
-    # You can implement forgot password functionality here
     return jsonify({
-        "message": "forgot password",
+        "message": "forgot password api still is not ready",
         "status": True
     })
+
+@app.route('/is-token-exists', methods=['POST'])
+def isTokenExists():
+    return jsonify({
+        "message": "is there any user with this token",
+        "status": True
+    })
+
 
 if __name__ == "__main__":
     app.run()
