@@ -3,13 +3,13 @@ from flask import Flask
 app = Flask(__name__)
 
 @app.route('/sign-in')
-def home():
-    return 'Hello, World!'
+def signIn():
+    return 'sign in!'
 
-@app.route('/sign-uo')
-def home():
-    return 'Hello, World!'
+@app.route('/sign-up')
+def signUp():
+    return 'sign up!'
 
 @app.route('/forgot-password')
-def home():
-    return 'Hello, World!'
+def forgotPassword():
+    return 'forgot password!'
