@@ -1,20 +1,13 @@
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask import render_template
 
 app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return """
-        <h1>KeepInTouch server greeting page!</h1>
-        <p>You can send requests to:</p>
-        <a href='/sign-in'>/sign-in</a>
-        <br>
-        <a href='/sign-up'>/sign-up</a>
-        <br>
-        <a href='/forgot-password'>/forgot-password</a>
-     """
+    return render_template('index.html')
 
 @app.route('/sign-in', methods=['POST'])
 def signIn():
