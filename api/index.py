@@ -2,6 +2,7 @@ from flask import Flask
 from flask import jsonify
 from flask import request
 from flask import render_template
+from flask_cors import CORS
 from psycopg2 import connect
 from psycopg2 import IntegrityError
 import random
@@ -9,6 +10,7 @@ import string
 import hashlib
 
 app = Flask(__name__)
+CORS(app)
 
 db = connect(
     dbname="rqskigmw",
