@@ -3,6 +3,7 @@ from flask import jsonify
 from flask import request
 from flask import render_template
 from psycopg2 import connect
+from psycopg2 import IntegrityError
 import random
 import string
 import hashlib
@@ -81,8 +82,7 @@ def signUp():
             "status": True,
             "ssid": ssid
         })
-    except psycopg2.IntegrityError as e:
-        # Duplicate email error
+    except IntegrityError as e:
         db.rollback()
         return jsonify({
             "message": "Email already exists",
