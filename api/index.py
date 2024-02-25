@@ -1,4 +1,7 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask
+from flask import jsonify
+from flask import request
+from flask import render_template
 from psycopg2 import connect
 import random
 import string
