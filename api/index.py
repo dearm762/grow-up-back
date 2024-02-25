@@ -1,15 +1,25 @@
 from flask import Flask
+from flask import jsonify
 
 app = Flask(__name__)
 
 @app.route('/sign-in')
 def signIn():
-    return 'sign in!'
+    return jsonify({
+        "message": "sign in",
+        "status": True
+    })
 
 @app.route('/sign-up')
 def signUp():
-    return 'sign up!'
+    return jsonify({
+        "message": "sign up",
+        "status": True
+    })
 
 @app.route('/forgot-password')
 def forgotPassword():
-    return 'forgot password!'
+    return jsonify({
+        "message": "forgot password",
+        "status": True
+    })
