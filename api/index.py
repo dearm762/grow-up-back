@@ -2,10 +2,14 @@ from flask import Flask
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/sign-in')
 def home():
     return 'Hello, World!'
 
-@app.route('/about')
-def about():
-    return 'About'
+@app.route('/sign-uo')
+def home():
+    return 'Hello, World!'
+
+@app.route('/forgot-password')
+def home():
+    return 'Hello, World!'
