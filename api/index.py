@@ -5,6 +5,7 @@ from flask import render_template
 from psycopg2 import connect
 import random
 import string
+import hashlib
 
 app = Flask(__name__)
 
@@ -29,6 +30,9 @@ def generate_ssid(length=50):
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length))
 
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
 @app.route('/')
 def main():
     return render_template('index.html')
@@ -39,7 +43,7 @@ def signIn():
     email = request_data.get('email')
     password = request_data.get('password')
     cursor = db.cursor()
-    cursor.execute("SELECT * FROM users WHERE email = %s AND password = %s", (email, password))
+    cursor.execute("SELECT * FROM users WHERE email = %s AND password = %s", (email, hash_password(password)))
     user = cursor.fetchone()
     cursor.close()
     if user:
@@ -62,11 +66,13 @@ def signUp():
     surname = request_data.get('surname')
     email = request_data.get('email')
     password = request_data.get('password')
+
+    hashed_password = hash_password(password)
     
     ssid = generate_ssid()
 
     cursor = db.cursor()
-    cursor.execute("INSERT INTO users (name, surname, email, password, ssid) VALUES (%s, %s, %s, %s, %s)", (name, surname, email, password, ssid))
+    cursor.execute("INSERT INTO users (name, surname, email, password, ssid) VALUES (%s, %s, %s, %s, %s)", (name, surname, email, hashed_password, ssid))
     db.commit()
     cursor.close()
     return jsonify({
