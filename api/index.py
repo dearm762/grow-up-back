@@ -116,7 +116,3 @@ def isTokenExists():
         "message": "is there any user with this token",
         "status": True
     })
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
