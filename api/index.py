@@ -40,6 +40,18 @@ def hash_password(password):
 def main():
     return render_template('index.html')
 
+@app.route('/api')
+def api():
+    return render_template('api.html')
+
+@app.route('/statistics')
+def statistics():
+    return render_template('statistics.html')
+
+@app.route('/status')
+def status():
+    return render_template('status.html')
+
 @app.route('/sign-in', methods=['POST'])
 def signIn():
     request_data = request.get_json()
