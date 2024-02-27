@@ -65,7 +65,11 @@ def status():
 
 @app.route('/socket')
 def some_route():
-    emit('some_event', {'data': 'Some data'})
+    @socketio.on('message')
+    def handle_message(message):
+        print('received message: ' + message)
+        send(message)  # Echo the received message back to the client
+
 
 @app.route('/sign-in', methods=['POST'])
 def signIn():
