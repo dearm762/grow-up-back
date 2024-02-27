@@ -63,7 +63,7 @@ def statistics():
 def status():
     return render_template('status.html')
 
-@app.route('/some-route')
+@app.route('/socket')
 def some_route():
     emit('some_event', {'data': 'Some data'})
 
