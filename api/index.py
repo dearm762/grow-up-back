@@ -8,9 +8,20 @@ from psycopg2 import IntegrityError
 import random
 import string
 import hashlib
+from flask_socketio import SocketIO
+from flask_socketio import emit
 
 app = Flask(__name__)
 CORS(app)
+socketio = SocketIO(app)
+
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
 
 db = connect(
     dbname="rqskigmw",
@@ -51,6 +62,10 @@ def statistics():
 @app.route('/status')
 def status():
     return render_template('status.html')
+
+@app.route('/some-route')
+def some_route():
+    emit('some_event', {'data': 'Some data'})
 
 @app.route('/sign-in', methods=['POST'])
 def signIn():
@@ -116,3 +131,6 @@ def isTokenExists():
         "message": "is there any user with this token",
         "status": True
     })
+
+if __name__ == '__main__':
+    socketio.run(app)
