@@ -10,6 +10,7 @@ import string
 import hashlib
 from flask_socketio import SocketIO
 from flask_socketio import emit
+from flask_socketio import send
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
