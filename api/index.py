@@ -1,42 +1,24 @@
-from flask import Flask
-from flask import jsonify
-from flask import request
-from flask import render_template
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
-from psycopg2 import connect
-from psycopg2 import IntegrityError
 import random
 import string
 import hashlib
-from flask_socketio import SocketIO
-from flask_socketio import emit
-from flask_socketio import send
+import mysql.connector
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
 CORS(app)
-socketio = SocketIO(app, cors_allowed_origins="*")
 
-@socketio.on('connect')
-def handle_connect():
-    print('Client connected')
-
-@socketio.on('disconnect')
-def handle_disconnect():
-    print('Client disconnected')
-
-db = connect(
-    dbname="rqskigmw",
-    user="rqskigmw",
-    password="Ph3vQzCXoigc-g-dYHrVwYTD7lMPkeJn",
-    host="surus.db.elephantsql.com",
-    port="5432"
+db = mysql.connector.connect(
+    host="185.22.67.20:3306",
+    user="db_admin",
+    password="Aktau7292",
+    database="grow-up-course"
 )
 
 cursor = db.cursor()
 
-cursor.execute("SELECT version();")
-
+cursor.execute("SELECT VERSION()")
 record = cursor.fetchone()
 print("You are connected to - ", record)
 
@@ -52,26 +34,6 @@ def hash_password(password):
 @app.route('/')
 def main():
     return render_template('index.html')
-
-@app.route('/api')
-def api():
-    return render_template('api.html')
-
-@app.route('/statistics')
-def statistics():
-    return render_template('statistics.html')
-
-@app.route('/status')
-def status():
-    return render_template('status.html')
-
-@app.route('/socket')
-def some_route():
-    @socketio.on('message')
-    def handle_message(message):
-        print('received message: ' + message)
-        send(message)
-
 
 @app.route('/sign-in', methods=['POST'])
 def signIn():
@@ -117,7 +79,7 @@ def signUp():
             "status": True,
             "ssid": ssid
         })
-    except IntegrityError as e:
+    except mysql.connector.IntegrityError as e:
         db.rollback()
         return jsonify({
             "message": "Email already exists",
@@ -137,6 +99,3 @@ def isTokenExists():
         "message": "is there any user with this token",
         "status": True
     })
-
-if __name__ == '__main__':
-    socketio.run(app)
