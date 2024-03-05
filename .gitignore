@@ -1,14 +1,16 @@
-.vercel
-*.log
-*.pyc
-__pycache__
+# Ignore node_modules directory
+node_modules/
 
-# Environments 
-.env 
-.venv 
-env/ 
-venv/ 
-ENV/ 
-env.bak/ 
-venv.bak/ 
-node_modules
+# Ignore any files or directories starting with . (e.g., .DS_Store on macOS)
+.*
+
+# Ignore log files
+*.log
+
+# Ignore environment-specific files (e.g., .env)
+.env
+
+# Ignore build artifacts or compiled files
+dist/
+build/
+.vercel
